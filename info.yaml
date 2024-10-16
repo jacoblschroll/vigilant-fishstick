@@ -22,24 +22,24 @@ project:
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  ui[0]: "Conv Inputs 0"
+  ui[1]: "Conv Inputs 1"
+  ui[2]: "Conv Inputs 2"
+  ui[3]: "Conv Inputs 3"
+  ui[4]: "Conv Inputs 4"
+  ui[5]: "Conv Inputs 5"
+  ui[6]: "Conv Inputs 6"
+  ui[7]: "Conv Inputs 7"
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "Output of maxpooling 0"
+  uo[1]: "Output of maxpooling 1"
+  uo[2]: "Output of maxpooling 2"
+  uo[3]: "Output of maxpooling 3"
+  uo[4]: "Output of maxpooling 4"
+  uo[5]: "Output of maxpooling 5"
+  uo[6]: "Output of maxpooling 6"
+  uo[7]: "Output of maxpooling 7"
 
   # Bidirectional pins
   uio[0]: ""

@@ -19,22 +19,24 @@ module tt_um_example (
     reg [23:0] weights;
     reg [23:0] inputs;
 
-    reg convolution_result[11:0];
+    reg [13:0] convolution_result;
 
     reg [13:0] greatest;
 
     initial begin
         weights = 24'b0;
-      	inputs = 24'b0;
-      	
-        convolution_result = 12'b0;
+        inputs = 24'b0;
+        
+        convolution_result = 14'b0;
 
         greatest = 14'b0;
 
         uio_oe[7] = 1'b0;
-        uio_oe[6:0] = 2'b1;
+        uio_oe[6:0] = 7'b1;
+        
+        uio_out[7:6] = 2'b0;
     end
-  
+
     always @(posedge clk) begin
         if (!rst_n) begin
             weights <= 24'b0;
@@ -50,21 +52,20 @@ module tt_um_example (
     end
 
     always @ (negedge clk) begin
-      if (!rst_n) begin
-            greatest <= 10'b0;
-      end
+        
+        convolution_result <= inputs[5:0] * weights[5:0] + inputs[11:6] * weights[11:6] + inputs[17:12] * weights[17:12] + inputs[23:18] * weights[23:18];
+        if (!rst_n) begin
+            greatest <= 14'b0;
+        end
 
-      convolution_result <= inputs[5:0] * weights[5:0] + inputs[11:6] * weights[11:6] + inputs[17:12] * weights[17:12] + inputs[23:18] * weights[23:18];
-
-      else if (convolution_result > greatest) begin
+        else if (convolution_result > greatest) begin
             greatest <= convolution_result;
-      end
+        end
     end
 
     assign uo_out = greatest[7:0];
-    assign uio_out[6:0] = greatest[13:8];
+    assign uio_out[5:0] = greatest[13:8];
 
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena, ui_in[7:6], 1'b0};
-
+    // List all unused inputs to prevent warnings
+    wire _unused = &{ena, ui_in[7:6], 1'b0};
 endmodule

@@ -16,29 +16,35 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-    reg [15:0] weights;
-    reg [15:0] inputs;
+    reg [23:0] weights;
+    reg [23:0] inputs;
 
-    reg [9:0] greatest;
+    reg convolution_result[11:0];
+
+    reg [13:0] greatest;
 
     initial begin
-        weights = 16'b0;
-      	inputs = 16'b0;
-      	greatest = 10'b0;
+        weights = 24'b0;
+      	inputs = 24'b0;
+      	
+        convolution_result = 12'b0;
+
+        greatest = 14'b0;
+
         uio_oe[7] = 1'b0;
-        uio_oe[1:0] = 2'b0;
+        uio_oe[6:0] = 2'b1;
     end
   
     always @(posedge clk) begin
-        // HIGH write goes to weights
-        if (rst_n) begin
-            weights <= 16'b0;
-            inputs <= 16'b0;
+        if (!rst_n) begin
+            weights <= 24'b0;
+            inputs <= 24'b0;
         end else begin
+            // HIGH write goes to weights
             if (uio_in[7]) begin
-                weights <= {ui_in[3:0], weights[15:4]};
+                weights <= {ui_in[5:0], weights[23:6]};
             end else begin
-                inputs <= {ui_in[3:0], inputs[15:4]};
+                inputs <= {ui_in[5:0], inputs[23:6]};
             end
         end
     end
@@ -47,19 +53,18 @@ module tt_um_example (
       if (!rst_n) begin
             greatest <= 10'b0;
       end
-      
-      else if ((inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]) > greatest) begin
-            greatest <= (inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]);
+
+      convolution_result <= inputs[5:0] * weights[5:0] + inputs[11:6] * weights[11:6] + inputs[17:12] * weights[17:12] + inputs[23:18] * weights[23:18];
+
+      else if (convolution_result > greatest) begin
+            greatest <= convolution_result;
       end
     end
 
     assign uo_out = greatest[7:0];
-    assign uio_out[1:0] = greatest[9:8];
-
-    assign uio_out[7:2] = 6'b0;  // Explicitly assign to 0 if not used
-    assign uio_oe[6:2] = 5'b1; // Explicitly assign to 0 if not used
+    assign uio_out[6:0] = greatest[13:8];
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[6:0], ui_in[7:4], 1'b0};
+  wire _unused = &{ena, ui_in[7:6], 1'b0};
 
 endmodule

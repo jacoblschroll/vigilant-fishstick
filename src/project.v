@@ -29,7 +29,7 @@ module tt_um_example (
   
     always @(posedge clk) begin
         // HIGH write goes to weights
-        if (write) begin
+        if (uio_in[0]) begin
             weights <= {ui_in, weights[31:8]};
         end else begin
             inputs <= {ui_in, inputs[31:8]};
@@ -49,6 +49,6 @@ module tt_um_example (
     assign uo_out = greatest[7:0];
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in, uio_out, uio_oe, 1'b0};
+  wire _unused = &{ena, uio_in[7:1], uio_out, uio_oe, 1'b0};
 
 endmodule

@@ -32,22 +32,19 @@ module tt_um_example (
     always @(posedge clk) begin
         // HIGH write goes to weights
         if (rst_n) begin
-            weights = 16'b0;
-            inputs = 16'b0;
-        end
-
-        if (uio_in[7]) begin
-            weights <= {ui_in[3:0], weights[15:4]};
+            weights <= 16'b0;
+            inputs <= 16'b0;
+            greatest <= 10'b0;
         end else begin
-            inputs <= {ui_in[3:0], inputs[15:4]};
+            if (uio_in[7]) begin
+                weights <= {ui_in[3:0], weights[15:4]};
+            end else begin
+                inputs <= {ui_in[3:0], inputs[15:4]};
+            end
         end
     end
 
     always @ (negedge clk) begin
-        if (rst_n) begin
-            greatest <= 10'b0;
-        end
-        
         if ((inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]) > greatest) begin
             greatest <= (inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]);
         end

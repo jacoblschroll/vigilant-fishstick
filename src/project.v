@@ -16,39 +16,46 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-    reg [31:0] weights;
-    reg [31:0] inputs;
+    reg [15:0] weights;
+    reg [15:0] inputs;
 
-    reg [17:0] greatest;
+    reg [9:0] greatest;
 
     initial begin
-        weights = 32'b0;
-      	inputs = 32'b0;
-      	greatest = 18'b0;
+        weights = 16'b0;
+      	inputs = 16'b0;
+      	greatest = 10'b0;
+        assign uio_oe[7] = 1'b0;
+        assign ui_oe[1:0] = 1'b0;
     end
   
     always @(posedge clk) begin
         // HIGH write goes to weights
-        if (uio_in[0]) begin
-            weights <= {ui_in, weights[31:8]};
+        if (rst_n) begin
+            weights = 16'b0;
+            inputs = 16'b0;
+        end
+
+        if (uio_in[7]) begin
+            weights <= {ui_in[3:0], weights[15:4]};
         end else begin
-            inputs <= {ui_in, inputs[31:8]};
+            inputs <= {ui_in[3:0], inputs[15:4]};
         end
     end
 
     always @ (negedge clk) begin
         if (rst_n) begin
-            greatest <= 18'b0;
+            greatest <= 10'b0;
         end
         
-        if ((inputs[7:0] * weights[7:0] + inputs[15:8] * weights[15:8] + inputs[23:16] * weights[23:16] + inputs[31:24] * weights[31:24]) > greatest) begin
-            greatest <= (inputs[7:0] * weights[7:0] + inputs[15:8] * weights[15:8] + inputs[23:16] * weights[23:16] + inputs[31:24] * weights[31:24]);
+        if ((inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]) > greatest) begin
+            greatest <= (inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]);
         end
     end
 
-    assign uo_out = greatest[7:0];
+    assign uo_out = greatest[1:0];
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[7:1], uio_out, uio_oe, 1'b0};
+  wire _unused = &{ena, uio_in[7:1], uio_out, uio_oe[6:2], 1'b0};
 
 endmodule

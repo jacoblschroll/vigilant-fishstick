@@ -16,12 +16,39 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+    reg [31:0] weights;
+    reg [31:0] inputs;
+
+    reg [17:0] greatest;
+
+    initial begin
+        weights = 32'b0;
+      	inputs = 32'b0;
+      	greatest = 18'b0;
+    end
+  
+    always @(posedge clk) begin
+        // HIGH write goes to weights
+        if (write) begin
+            weights <= {ui_in, weights[31:8]};
+        end else begin
+            inputs <= {ui_in, inputs[31:8]};
+        end
+    end
+
+    always @ (negedge clk) begin
+        if (rst_n) begin
+            greatest <= 18'b0;
+        end
+        
+        if ((inputs[7:0] * weights[7:0] + inputs[15:8] * weights[15:8] + inputs[23:16] * weights[23:16] + inputs[31:24] * weights[31:24]) > greatest) begin
+            greatest <= (inputs[7:0] * weights[7:0] + inputs[15:8] * weights[15:8] + inputs[23:16] * weights[23:16] + inputs[31:24] * weights[31:24]);
+        end
+    end
+
+    assign uo_out = greatest[7:0];
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
+  wire _unused = &{ena, uio_in, uio_out, uio_oe, 1'b0};
 
 endmodule

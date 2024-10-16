@@ -34,7 +34,6 @@ module tt_um_example (
         if (rst_n) begin
             weights <= 16'b0;
             inputs <= 16'b0;
-            greatest <= 10'b0;
         end else begin
             if (uio_in[7]) begin
                 weights <= {ui_in[3:0], weights[15:4]};
@@ -45,13 +44,17 @@ module tt_um_example (
     end
 
     always @ (negedge clk) begin
-        if ((inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]) > greatest) begin
+      if (!rst_n) begin
+            greatest <= 10'b0;
+      end
+      
+      else if ((inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]) > greatest) begin
             greatest <= (inputs[3:0] * weights[3:0] + inputs[7:4] * weights[7:4] + inputs[11:8] * weights[11:8] + inputs[15:12] * weights[15:12]);
-        end
+      end
     end
 
     assign uo_out = greatest[7:0];
-    assign uio_out[0:1] = greatest[9:8];
+    assign uio_out[1:0] = greatest[9:8];
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, uio_in[7:1], uio_out[7:2], uio_oe[6:2], ui_in[7:4], 1'b0};

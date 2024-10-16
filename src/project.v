@@ -25,8 +25,8 @@ module tt_um_example (
         weights = 16'b0;
       	inputs = 16'b0;
       	greatest = 10'b0;
-        assign uio_oe[7] = 1'b0;
-        assign ui_oe[1:0] = 1'b0;
+        uio_oe[7] = 1'b0;
+        ui_oe[1:0] = 2'b0;
     end
   
     always @(posedge clk) begin

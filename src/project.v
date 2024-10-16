@@ -17,31 +17,21 @@ module tt_um_example (
 );
 
     // Register for storing weight values
-    reg [23:0] weights;
+    reg [23:0] weights = 24'b0;
 
     // Register for storing input values
-    reg [23:0] inputs;
+    reg [23:0] inputs = 24'b0;
 
     // Register for storing the result of each convolution
-    reg [13:0] convolution_result;
+    reg [13:0] convolution_result = 14'b0;
 
     // Register for storing the greast value seen since reset
-    reg [13:0] greatest;
+    reg [13:0] greatest = 14'b0;
 
-    // Set starting values or dummy values for unused outputs
-    initial begin
-        weights = 24'b0;
-        inputs = 24'b0;
-        
-        convolution_result = 14'b0;
-
-        greatest = 14'b0;
-
-        uio_oe[7] = 1'b0;
-        uio_oe[6:0] = 7'b1;
-        
-        uio_out[7:6] = 2'b0;
-    end
+    assign uio_oe[7] = 1'b0;
+    assign uio_oe[6:0] = 7'b1;
+    
+    assign uio_out[7:6] = 2'b0;
 
     // At the rising edge of the clock
     always @(posedge clk) begin
@@ -68,6 +58,7 @@ module tt_um_example (
         // Reset at active low
         if (!rst_n) begin
             greatest <= 14'b0;
+            convolution_result <= 14'b0;
         end
 
         // If the convolution is greater than that seen so far, it becomes the new greatest

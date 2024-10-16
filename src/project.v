@@ -56,7 +56,10 @@ module tt_um_example (
     assign uo_out = greatest[7:0];
     assign uio_out[1:0] = greatest[9:8];
 
+    assign uio_out[7:2] = 6'b0;  // Explicitly assign to 0 if not used
+    assign uio_oe[6:2] = 5'b1; // Explicitly assign to 0 if not used
+
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[7:1], uio_out[7:2], uio_oe[6:2], ui_in[7:4], 8'b0};
+  wire _unused = &{ena, uio_in[6:0], ui_in[7:4], 1'b0};
 
 endmodule

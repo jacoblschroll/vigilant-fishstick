@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+Takes in 4 bit weights and inputs, outputs the 2x2 convolution and the max pooled result
 
 ## How to test
 
-Explain how to use your project
+Test it
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Raspberry Pi Pico with software from __________

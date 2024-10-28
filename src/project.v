@@ -36,8 +36,12 @@ MultiSPI #(.REGSIZE(128)) dataSPI (
     .register(data)
 );
 
-assign weights = weights_reg;
-assign data = data_reg;
+assign weights_reg = weights;
+assign data_reg = data;
+
+assign uio_out = 8'b0;
+assign uo_out = 8'b0;
+assign uio_oe = 8'b0;
 
 always @ (posedge clk) begin
     if (ui_in[7:6] == 2'b00) begin

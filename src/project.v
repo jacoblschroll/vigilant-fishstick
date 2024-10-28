@@ -40,17 +40,17 @@ assign weights = weights_reg;
 assign data = data_reg;
 
 always @ (posedge clk) begin
-    if (resetSelect == 2'b00) begin
+    if (ui_in[7:6] == 2'b00) begin
         weights_reg <= 32'b0;
         data_reg <= 128'b0;
-    end else if (resetSelect == 2'b01) begin
+    end else if (ui_in[7:6] == 2'b01) begin
         weights_reg <= 32'b0;
-    end else if (resetSelect == 2'b10) begin
+    end else if (ui_in[7:6] == 2'b10) begin
         data_reg <= 128'b0;
     end
 end
 
 // List all unused inputs to prevent warnings
-wire _unused = &{ena, ui_in[7:6], uio_in[7:0], rst_n, 1'b0};
+wire _unused = &{ena, uio_in[7:0], rst_n, 1'b0};
 
 endmodule

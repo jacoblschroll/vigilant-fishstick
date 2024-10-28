@@ -29,8 +29,8 @@ pinout:
   ui[3]: "I4"
   ui[4]: "S0"
   ui[5]: "S1"
-  ui[6]: ""
-  ui[7]: ""
+  ui[6]: "Reset Selection 0"
+  ui[7]: "Reset Selection 1"
 
   # Outputs
   uo[0]: ""

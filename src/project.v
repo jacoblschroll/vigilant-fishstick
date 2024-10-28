@@ -52,6 +52,9 @@ always @ (posedge clk) begin
     end else if (ui_in[7:6] == 2'b10) begin
         data_reg <= 128'b0;
     end
+
+    weights_reg <= 0;
+    data_reg <= 0;
 end
 
 // List all unused inputs to prevent warnings

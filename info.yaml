@@ -8,7 +8,7 @@ project:
   clock_hz:     50000000       # Clock frequency in Hz (or 0 if not applicable)
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
-  tiles: "1x2"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
+  tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
 
   # Your top module name must start with "tt_um_". Make it unique by including your github username:
   top_module:  "tt_um_example"
@@ -18,38 +18,39 @@ project:
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "project.v"
+    - "SPISelect.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
   # Inputs
-  ui[0]: "Conv Inputs 0"
-  ui[1]: "Conv Inputs 1"
-  ui[2]: "Conv Inputs 2"
-  ui[3]: "Conv Inputs 3"
-  ui[4]: "Conv Inputs 4"
-  ui[5]: "Conv Inputs 5"
+  ui[0]: "I0"
+  ui[1]: "I1"
+  ui[2]: "I2"
+  ui[3]: "I4"
+  ui[4]: "S0"
+  ui[5]: "S1"
   ui[6]: ""
   ui[7]: ""
 
   # Outputs
-  uo[0]: "Output of maxpooling 0"
-  uo[1]: "Output of maxpooling 1"
-  uo[2]: "Output of maxpooling 2"
-  uo[3]: "Output of maxpooling 3"
-  uo[4]: "Output of maxpooling 4"
-  uo[5]: "Output of maxpooling 5"
-  uo[6]: "Output of maxpooling 6"
-  uo[7]: "Output of maxpooling 7"
+  uo[0]: ""
+  uo[1]: ""
+  uo[2]: ""
+  uo[3]: ""
+  uo[4]: ""
+  uo[5]: ""
+  uo[6]: ""
+  uo[7]: ""
 
   # Bidirectional pins
-  uio[0]: "Output of maxpooling 8"
-  uio[1]: "Output of maxpooling 9"
-  uio[2]: "Output of maxpooling 10"
-  uio[3]: "Output of maxpooling 11"
-  uio[4]: "Output of maxpooling 12"
-  uio[5]: "Output of maxpooling 13"
-  uio[6]: "Output of maxpooling 14"
-  uio[7]: "Write state pin"
+  uio[0]: ""
+  uio[1]: ""
+  uio[2]: ""
+  uio[3]: ""
+  uio[4]: ""
+  uio[5]: ""
+  uio[6]: ""
+  uio[7]: ""
 
 # Do not change!
 yaml_version: 6

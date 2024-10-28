@@ -54,7 +54,7 @@ always @ (posedge clk) begin
     end
 
     data_reg <= {data_reg[126:0], 1};
-    weights_reg <= {weights_reg[126:0], 1};
+    weights_reg <= {weights_reg[32:0], 1};
 end
 
 // List all unused inputs to prevent warnings

@@ -19,6 +19,7 @@ project:
   source_files:
     - "project.v"
     - "SPISelect.v"
+    - "readData.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
@@ -43,8 +44,8 @@ pinout:
   uo[7]: ""
 
   # Bidirectional pins
-  uio[0]: "Read Enable (Input)"
-  uio[1]: "Read Select (Input)"
+  uio[0]: "Read Enable"
+  uio[1]: ""
   uio[2]: ""
   uio[3]: ""
   uio[4]: ""

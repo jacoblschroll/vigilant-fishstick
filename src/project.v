@@ -5,6 +5,7 @@
 
 `default_nettype none
 `include "SPISelect.v"
+`include "readData.v"
 
 module tt_um_example (
     input  wire [7:0] ui_in,    // Dedicated inputs
@@ -19,6 +20,9 @@ module tt_um_example (
 
 wire [31:0] weights;
 wire [127:0] data;
+
+reg [1:0] readCycle;
+reg [17:0] convolution;
 
 MultiSPI #(.REGSIZE(32), .SELECTCODE(1'b0)) weightSPI (
     .clk(clk),
@@ -36,9 +40,15 @@ MultiSPI #(.REGSIZE(128), .SELECTCODE(1'b1)) dataSPI (
     .register(data)
 );
 
+DataAccess convolutionRead(
+    .clk(clk),
+    .readEnable(uio_in[0]),
+    .readCycle(readCycle),
+    .dataIn(convolution),
+    .dataOut(uo_out[7:0])
+);
 
 assign uio_out[7:0] = 0;
-assign uo_out[7:0] = 0;
 assign uio_oe[7:0] = 0;
 
 always @ (posedge clk) begin
@@ -50,9 +60,11 @@ always @ (posedge clk) begin
     end else if (ui_in[6] == 1 && rst_n == 0) begin
         data <= 128'b0;
     end
+
+    convolution <= data[7:0] * weights[7:0];
 end
 
 // List all unused inputs to prevent warnings
-wire _unused = &{ena, uio_in[7:0], 1'b0};
+wire _unused = &{ena, uio_in[7:1], 1'b0};
 
 endmodule

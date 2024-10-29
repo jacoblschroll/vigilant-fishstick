@@ -16,9 +16,6 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-reg [31:0] weights_reg;
-reg [127:0] data_reg;
-
 wire [31:0] weights;
 wire [127:0] data;
 
@@ -52,8 +49,8 @@ always @ (posedge clk) begin
         data_reg <= 128'b0;
     end
 
-    data_reg <= ~data_reg;
-    weights_reg <= ~weights_reg;
+    data <= ~data;
+    weights <= ~weights;
 end
 
 // List all unused inputs to prevent warnings

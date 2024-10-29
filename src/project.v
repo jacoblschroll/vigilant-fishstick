@@ -21,6 +21,9 @@ module tt_um_example (
 wire [31:0] weights;
 wire [127:0] data;
 
+reg weights_reg;
+reg data_reg;
+
 reg [1:0] readCycle;
 reg [17:0] convolution;
 
@@ -51,9 +54,12 @@ DataAccess convolutionRead(
 assign uio_out[7:0] = 0;
 assign uio_oe[7:0] = 0;
 
+assign weights_reg = weights;
+assign data_reg = data;
+
 always @ (posedge clk) begin
     if (ui_in[6] == 0 && rst_n == 0) begin
-        weight <= 32'b0;
+        weights <= 32'b0;
         data <= 128'b0;
     end else if (ui_in[6] == 0 && rst_n == 1) begin
         weights <= 32'b0;

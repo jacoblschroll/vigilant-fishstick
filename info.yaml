@@ -43,8 +43,8 @@ pinout:
   uo[7]: ""
 
   # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
+  uio[0]: "Read Enable (Input)"
+  uio[1]: "Read Select (Input)"
   uio[2]: ""
   uio[3]: ""
   uio[4]: ""

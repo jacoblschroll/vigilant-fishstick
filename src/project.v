@@ -4,6 +4,7 @@
  */
 
 `default_nettype none
+`include "SPISelect.v"
 
 module tt_um_example (
     input  wire [7:0] ui_in,    // Dedicated inputs
@@ -15,9 +16,6 @@ module tt_um_example (
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
 );
-
-reg [31:0] weights_reg;
-reg [127:0] data_reg;
 
 wire [31:0] weights;
 wire [127:0] data;
@@ -38,8 +36,6 @@ MultiSPI #(.REGSIZE(128), .SELECTCODE(1'b1)) dataSPI (
     .register(data)
 );
 
-assign weights_reg = weights;
-assign data_reg = data;
 
 assign uio_out[7:0] = 0;
 assign uo_out[7:0] = 0;
@@ -47,16 +43,13 @@ assign uio_oe[7:0] = 0;
 
 always @ (posedge clk) begin
     if (ui_in[6] == 0 && rst_n == 0) begin
-        weights_reg <= 32'b0;
-        data_reg <= 128'b0;
+        weight <= 32'b0;
+        data <= 128'b0;
     end else if (ui_in[6] == 0 && rst_n == 1) begin
-        weights_reg <= 32'b0;
+        weights <= 32'b0;
     end else if (ui_in[6] == 1 && rst_n == 0) begin
-        data_reg <= 128'b0;
+        data <= 128'b0;
     end
-
-    data_reg <= ~data_reg;
-    weights_reg <= ~weights_reg;
 end
 
 // List all unused inputs to prevent warnings

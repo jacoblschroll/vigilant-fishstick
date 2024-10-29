@@ -41,12 +41,12 @@ assign uio_oe[7:0] = 0;
 
 always @ (posedge clk) begin
     if (ui_in[6] == 0 && rst_n == 0) begin
-        weights_reg <= 32'b0;
-        data_reg <= 128'b0;
+        weights <= 32'b0;
+        data <= 128'b0;
     end else if (ui_in[6] == 0 && rst_n == 1) begin
-        weights_reg <= 32'b0;
+        weights <= 32'b0;
     end else if (ui_in[6] == 1 && rst_n == 0) begin
-        data_reg <= 128'b0;
+        data <= 128'b0;
     end
 
     data <= ~data;

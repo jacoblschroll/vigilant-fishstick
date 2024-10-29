@@ -22,17 +22,19 @@ reg [127:0] data_reg;
 wire [31:0] weights;
 wire [127:0] data;
 
-MultiSPI #(.REGSIZE(32)) weightSPI (
+MultiSPI #(.REGSIZE(32), .SELECTCODE(1'b0)) weightSPI (
     .clk(clk),
     .I(ui_in[3:0]),
     .S(ui_in[5:4]),
+    .writeSelect(ui_in[7]),
     .register(weights)
 );
 
-MultiSPI #(.REGSIZE(128)) dataSPI (
+MultiSPI #(.REGSIZE(128), .SELECTCODE(1'b1)) dataSPI (
     .clk(clk),
     .I(ui_in[3:0]),
     .S(ui_in[5:4]),
+    .writeSelect(ui_in[7]),
     .register(data)
 );
 
@@ -44,12 +46,12 @@ assign uo_out[7:0] = 0;
 assign uio_oe[7:0] = 0;
 
 always @ (posedge clk) begin
-    if (ui_in[6] = 0 && rst_n == 0) begin
+    if (ui_in[6] == 0 && rst_n == 0) begin
         weights_reg <= 32'b0;
         data_reg <= 128'b0;
-    end else if (ui_in[6] = 0 && rst_n == 1) begin
+    end else if (ui_in[6] == 0 && rst_n == 1) begin
         weights_reg <= 32'b0;
-    end else if (ui_in[6] = 1 && rst_n == 0) begin
+    end else if (ui_in[6] == 1 && rst_n == 0) begin
         data_reg <= 128'b0;
     end
 

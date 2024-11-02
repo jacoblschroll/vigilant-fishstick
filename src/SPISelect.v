@@ -1,3 +1,4 @@
+/*
 module MultiSPI#(parameter REGSIZE = 8, parameter SELECTCODE = 1'b0)(
     input clk,
     input [3:0] I,
@@ -16,3 +17,4 @@ always @ (posedge clk) begin
     end
 end
 endmodule
+*/

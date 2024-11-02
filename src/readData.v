@@ -1,3 +1,4 @@
+/*
 module DataAccess
 (
     input clk,
@@ -24,3 +25,4 @@ end
 assign dataOut = toAssign;
 
 endmodule
+*/

@@ -18,39 +18,38 @@ project:
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "project.v"
-    - "SPISelect.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
   # Inputs
-  ui[0]: "I0"
-  ui[1]: "I1"
-  ui[2]: "I2"
-  ui[3]: "I4"
-  ui[4]: "S0"
-  ui[5]: "S1"
-  ui[6]: "Reset Selection"
-  ui[7]: "Write Selection"
+  ui[0]: "Data Input"
+  ui[1]: "Data Input"
+  ui[2]: "Data Input"
+  ui[3]: "Data Input"
+  ui[4]: "Data Input"
+  ui[5]: "Data Input"
+  ui[6]: "Data Input"
+  ui[7]: "Data Input"
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "Convolution Output"
+  uo[1]: "Convolution Output"
+  uo[2]: "Convolution Output"
+  uo[3]: "Convolution Output"
+  uo[4]: "Convolution Output"
+  uo[5]: "Convolution Output"
+  uo[6]: "Convolution Output"
+  uo[7]: "Convolution Output"
 
   # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
+  uio[0]: "Write Select"
+  uio[1]: "Read Enable"
   uio[2]: ""
   uio[3]: ""
   uio[4]: ""
   uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
+  uio[6]: "Convolution Output"
+  uio[7]: "State Output"
 
 # Do not change!
 yaml_version: 6

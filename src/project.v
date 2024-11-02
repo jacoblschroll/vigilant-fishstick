@@ -16,44 +16,39 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-wire [31:0] weights;
-wire [127:0] data;
+reg [31:0] data;
+reg [31:0] weights;
 
-MultiSPI #(.REGSIZE(32), .SELECTCODE(1'b0)) weightSPI (
-    .clk(clk),
-    .I(ui_in[3:0]),
-    .S(ui_in[5:4]),
-    .writeSelect(ui_in[7]),
-    .register(weights)
-);
+reg [17:0] result;
+reg outputState;
 
-MultiSPI #(.REGSIZE(128), .SELECTCODE(1'b1)) dataSPI (
-    .clk(clk),
-    .I(ui_in[3:0]),
-    .S(ui_in[5:4]),
-    .writeSelect(ui_in[7]),
-    .register(data)
-);
-
-assign uio_out[7:0] = 0;
-assign uo_out[7:0] = 0;
-assign uio_oe[7:0] = 0;
+assign uio_oe[7:6] = 1;
+assign uio_oe[5:0] = 0;
 
 always @ (posedge clk) begin
-    if (ui_in[6] == 0 && rst_n == 0) begin
+    if (~rst_n) begin
+        data <= 32'b0;
         weights <= 32'b0;
-        data <= 128'b0;
-    end else if (ui_in[6] == 0 && rst_n == 1) begin
-        weights <= 32'b0;
-    end else if (ui_in[6] == 1 && rst_n == 0) begin
-        data <= 128'b0;
+    // Write Selection
+    end else if(~uio_in[0]) begin
+        data <= {data[23:0], ui_in[7:0]};
+    end else if (uio_in[0]) begin
+        weights <= {weights[23:0], ui_in[7:0]};
     end
 
-    data <= ~data;
-    weights <= ~weights;
+    if (uio_in[1] && outputState) begin
+        data_out <= {outputState, result[8:0]};
+    end else if(uio_in[1] && ~outputState) begin
+        data_out <= {outputState, result[17:9]};
+    end
+
+    outputState = ~outputState;
+    result <= (data[7:0] * weights[7:0]) + (data[15:8] * weights[15:8]) + (data[23:16] * weights[23:16]) + (data[31:24] * weights[31:24]);
 end
 
-// List all unused inputs to prevent warnings
-wire _unused = &{ena, uio_in[7:0], 1'b0};
+assign uo_out = data_out[7:0];
+assign uio_out[7:6] = data[9:8];
+
+wire _unused = &{ena, uio_in[7:2], 1'b0};
 
 endmodule

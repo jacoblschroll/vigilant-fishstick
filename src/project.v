@@ -19,6 +19,8 @@ module tt_um_example (
 reg [31:0] data;
 reg [31:0] weights;
 
+reg [9:0] data_out;
+
 reg [17:0] result;
 reg outputState;
 
@@ -46,8 +48,8 @@ always @ (posedge clk) begin
     result <= (data[7:0] * weights[7:0]) + (data[15:8] * weights[15:8]) + (data[23:16] * weights[23:16]) + (data[31:24] * weights[31:24]);
 end
 
-assign uo_out = data[7:0];
-assign uio_out[7:6] = data[9:8];
+assign uo_out = data_out[7:0];
+assign uio_out[7:6] = data_out[9:8];
 
 wire _unused = &{ena, uio_in[7:2], 1'b0};
 

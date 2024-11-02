@@ -27,6 +27,8 @@ reg outputState;
 assign uio_oe[7:6] = 1;
 assign uio_oe[5:0] = 0;
 
+assign uio_out[5:0] = 0;
+
 always @ (posedge clk) begin
     if (~rst_n) begin
         data <= 32'b0;
@@ -44,7 +46,7 @@ always @ (posedge clk) begin
         data_out <= {outputState, result[17:9]};
     end
 
-    outputState = ~outputState;
+    outputState <= ~outputState;
     result <= (data[7:0] * weights[7:0]) + (data[15:8] * weights[15:8]) + (data[23:16] * weights[23:16]) + (data[31:24] * weights[31:24]);
 end
 

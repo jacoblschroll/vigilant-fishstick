@@ -22,6 +22,8 @@ reg [27:0] weights;
 reg [15:0] result;
 reg outputState;
 
+reg [7:0] data_out;
+
 assign uio_oe[7:6] = 1;
 assign uio_oe[5:0] = 0;
 

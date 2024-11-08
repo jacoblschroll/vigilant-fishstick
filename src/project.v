@@ -35,9 +35,9 @@ always @ (posedge clk) begin
         weights <= 28'b0;
     // Write Selection
     end else if(~uio_in[0] && ~uio_in[1]) begin
-        data <= {data[22:0], ui_in[6:0]};
+        data <= {data[20:0], ui_in[6:0]};
     end else if (uio_in[0] && uio_in[1]) begin
-        weights <= {weights[22:0], ui_in[6:0]};
+        weights <= {weights[20:0], ui_in[6:0]};
     end
 
     // UIO[1] is ReadSelect

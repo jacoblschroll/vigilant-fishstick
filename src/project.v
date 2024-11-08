@@ -16,12 +16,10 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-reg [31:0] data;
-reg [31:0] weights;
+reg [27:0] data;
+reg [27:0] weights;
 
-reg [9:0] data_out;
-
-reg [17:0] result;
+reg [15:0] result;
 reg outputState;
 
 assign uio_oe[7:6] = 1;
@@ -34,24 +32,24 @@ always @ (posedge clk) begin
         data <= 32'b0;
         weights <= 32'b0;
     // Write Selection
-    end else if(~uio_in[0]) begin
+    end else if(~uio_in[0] && ~uio_in[1]) begin
         data <= {data[23:0], ui_in[7:0]};
-    end else if (uio_in[0]) begin
+    end else if (uio_in[0] && uio_in[1]) begin
         weights <= {weights[23:0], ui_in[7:0]};
     end
 
+    // UIO[1] is ReadSelect
     if (uio_in[1] && outputState) begin
-        data_out <= {outputState, result[8:0]};
+        data_out <= result[7:0];
     end else if(uio_in[1] && ~outputState) begin
-        data_out <= {outputState, result[17:9]};
+        data_out <= result[15:8];
     end
 
     outputState <= ~outputState;
-    result <= (data[7:0] * weights[7:0]) + (data[15:8] * weights[15:8]) + (data[23:16] * weights[23:16]) + (data[31:24] * weights[31:24]);
+    result <= (data[6:0] * weights[6:0]) + (data[13:7] * weights[13:7]) + (data[20:14] * weights[20:14]) + (data[27:21] * weights[27:21]);
 end
 
 assign uo_out = data_out[7:0];
-assign uio_out[7:6] = data_out[9:8];
 
 wire _unused = &{ena, uio_in[7:2], 1'b0};
 

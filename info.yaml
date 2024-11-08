@@ -29,7 +29,7 @@ pinout:
   ui[4]: "Data Input"
   ui[5]: "Data Input"
   ui[6]: "Data Input"
-  ui[7]: "Data Input"
+  ui[7]: ""
 
   # Outputs
   uo[0]: "Convolution Output"

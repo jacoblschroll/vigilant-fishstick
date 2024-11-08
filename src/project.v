@@ -27,17 +27,17 @@ reg [7:0] data_out;
 assign uio_oe[7:6] = 1;
 assign uio_oe[5:0] = 0;
 
-assign uio_out[5:0] = 0;
+assign uio_out[7:0] = 0;
 
 always @ (posedge clk) begin
     if (~rst_n) begin
-        data <= 32'b0;
-        weights <= 32'b0;
+        data <= 28'b0;
+        weights <= 28'b0;
     // Write Selection
     end else if(~uio_in[0] && ~uio_in[1]) begin
-        data <= {data[23:0], ui_in[7:0]};
+        data <= {data[22:0], ui_in[6:0]};
     end else if (uio_in[0] && uio_in[1]) begin
-        weights <= {weights[23:0], ui_in[7:0]};
+        weights <= {weights[22:0], ui_in[6:0]};
     end
 
     // UIO[1] is ReadSelect
@@ -53,6 +53,6 @@ end
 
 assign uo_out = data_out[7:0];
 
-wire _unused = &{ena, uio_in[7:2], 1'b0};
+wire _unused = &{ena, uio_in[7:2], ui_in[7], 1'b0};
 
 endmodule
